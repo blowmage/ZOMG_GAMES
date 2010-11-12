@@ -1,13 +1,41 @@
 require 'rubygems'
 require 'gosu'
 
+class Ninja
+  def initialize window
+    @window = window
+    @image = Gosu::Image.new window, 'assets/ninja-head.png'
+  	@x = (window.width - @image.width) / 2
+  	@y = (window.height - @image.height) / 2
+  end
+  def draw
+    x = @x + (Math::cos(Time.now) + Math::sin(Time.now.to_f))*200
+    y = @y + Math::sin(Time.now)*20
+    @image.draw x, y, @image.height + y
+  end
+end
+
+class Ruby
+  def initialize window
+    @window = window
+    @image = Gosu::Image.new window, 'assets/ruby.png'
+  	@x = (window.width - @image.width) / 2
+  	@y = (window.height - @image.height) / 2
+  end
+  def draw
+    x = @x + Math::sin(Time.now)*200
+    y = @y + Math::tan(Time.now)*25
+    @image.draw x, y, @image.height + y
+  end
+end
+
 class DemoGame < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = 'O HAI RUBCONF!!1!'
     @background = Gosu::Image.new self, 'assets/japan.png'
-    @ninja = Gosu::Image.new self, 'assets/ninja-head.png'
-    @ruby = Gosu::Image.new self, 'assets/ruby.png'
+    @ninja = Ninja.new self
+    @ruby = Ruby.new self
   end
   
   def button_down id
@@ -19,28 +47,8 @@ class DemoGame < Gosu::Window
   
   def draw
     @background.draw 0, 0, 0
-    # Let's draw a ninja!
-    x = self.width/2 - @ninja.width/2
-    y = self.height/2 - @ninja.height/2
-    # Let's animate it!
-    x += (Math.sin(Time.now) + Math.cos(Time.now))*200
-    y += Math.cos(Time.now)*20
-    @ninja.draw x, y, 1
-    
-    # Let's draw a ruby!
-    x = self.width/2 - @ruby.width/2
-    y = self.height/2 - @ruby.height/2
-    # Let's animate it!
-    x += Math.sin(Time.now)*200
-    y += Math.tan(Time.now)*20
-    @ruby.draw x, y, 1
-  end
-  
-  def draw_rect x1, y1, x2, y2, c
-    draw_quad x1, y1, c,
-              x2, y1, c,
-              x1, y2, c,
-              x2, y2, c
+    @ninja.draw
+    @ruby.draw
   end
 end
 
