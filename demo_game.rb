@@ -19,6 +19,9 @@ class DemoGame < Gosu::Window
     w, h = 200, 200
     x = self.width/2 - w/2
     y = self.height/2 - h/2
+    # Let's animate it!
+    x += (Math.sin(Time.now) + Math.cos(Time.now))*200
+    y += Math.tan(Time.now)*20
     draw_rect x, y, x+w, y+h, Gosu::Color::WHITE
   end
   
