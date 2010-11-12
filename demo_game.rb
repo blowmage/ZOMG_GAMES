@@ -6,6 +6,7 @@ class DemoGame < Gosu::Window
     super
     self.caption = 'O HAI RUBCONF!!1!'
     @background = Gosu::Image.new self, 'assets/japan.png'
+    @ninja = Gosu::Image.new self, 'assets/ninja-head.png'
   end
   
   def button_down id
@@ -18,13 +19,12 @@ class DemoGame < Gosu::Window
   def draw
     @background.draw 0, 0, 0
     # Let's draw a square!
-    w, h = 200, 200
-    x = self.width/2 - w/2
-    y = self.height/2 - h/2
+    x = self.width/2 - @ninja.width/2
+    y = self.height/2 - @ninja.height/2
     # Let's animate it!
     x += (Math.sin(Time.now) + Math.cos(Time.now))*200
     y += Math.tan(Time.now)*20
-    draw_rect x, y, x+w, y+h, Gosu::Color::WHITE
+    @ninja.draw x, y, 1
   end
   
   def draw_rect x1, y1, x2, y2, c
