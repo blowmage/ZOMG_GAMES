@@ -7,6 +7,7 @@ class DemoGame < Gosu::Window
     self.caption = 'O HAI RUBCONF!!1!'
     @background = Gosu::Image.new self, 'assets/japan.png'
     @ninja = Gosu::Image.new self, 'assets/ninja-head.png'
+    @ruby = Gosu::Image.new self, 'assets/ruby.png'
   end
   
   def button_down id
@@ -18,13 +19,21 @@ class DemoGame < Gosu::Window
   
   def draw
     @background.draw 0, 0, 0
-    # Let's draw a square!
+    # Let's draw a ninja!
     x = self.width/2 - @ninja.width/2
     y = self.height/2 - @ninja.height/2
     # Let's animate it!
     x += (Math.sin(Time.now) + Math.cos(Time.now))*200
-    y += Math.tan(Time.now)*20
+    y += Math.cos(Time.now)*20
     @ninja.draw x, y, 1
+    
+    # Let's draw a ruby!
+    x = self.width/2 - @ruby.width/2
+    y = self.height/2 - @ruby.height/2
+    # Let's animate it!
+    x += Math.sin(Time.now)*200
+    y += Math.tan(Time.now)*20
+    @ruby.draw x, y, 1
   end
   
   def draw_rect x1, y1, x2, y2, c
