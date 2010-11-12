@@ -6,6 +6,7 @@ class SnakeSprite
   def initialize window, width=256, height=256
     @window = window
     @width, @height = width, height
+    @direction = :right
     # Center the sprite by default
     @x, @y = (window.width - width)/2, (window.height - height)/2
     @tiles = Gosu::Image.load_tiles window,
@@ -13,8 +14,20 @@ class SnakeSprite
                                     @width, @height, false
   end
 
+  def move_right
+    @direction = :right
+  end
+  
+  def move_left
+    @direction = :left
+  end
+  
   def draw
-    @tiles[0].draw(@x, @y, 0, 1.0, 1.0)
+    if @direction == :right
+      @tiles[0].draw(@x, @y, 0, 1.0, 1.0)
+    else
+      @tiles[0].draw(@x + @width, @y, 0, -1.0, 1.0)
+    end
   end
 end
 
@@ -27,6 +40,8 @@ class SnakeGame < Gosu::Window
   
   def button_down id
     close if id == Gosu::KbEscape
+    @snake.move_right if id == Gosu::KbRight
+    @snake.move_left  if id == Gosu::KbLeft
   end
   
   def update
