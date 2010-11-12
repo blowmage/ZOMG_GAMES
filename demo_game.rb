@@ -5,6 +5,7 @@ class DemoGame < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = 'O HAI RUBCONF!!1!'
+    @background = Gosu::Image.new self, 'assets/japan.png'
   end
   
   def button_down id
@@ -15,6 +16,7 @@ class DemoGame < Gosu::Window
   end
   
   def draw
+    @background.draw 0, 0, 0
     # Let's draw a square!
     w, h = 200, 200
     x = self.width/2 - w/2
