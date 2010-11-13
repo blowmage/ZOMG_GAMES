@@ -7,23 +7,23 @@ class SnakeSprite
     @window = window
     @width, @height = width, height
     @direction = :right
-    @movement = 4
-    @animation_speed = 0.35
     # Center the sprite by default
     @x, @y = (window.width - width)/2, (window.height - height)/2
     @tiles = Gosu::Image.load_tiles window,
                                     'assets/snake-walk-attack.png',
                                     @width, @height, false
-    @walk_movement = 4
-    @walk_speed = 0.35
-    @walk_frames = 2
-    @attack_speed = 0.5
-    @attack_frames = 3
-    @attack_time = 0.0
+    @states = { :walk   => { :movement => 4,       :speed => 0.35,
+                             :frames   => [0,1],   :time => 0.0 },
+                :attack => { :movement => 2,       :speed => 0.5,
+                             :frames   => [2,3,4], :time => 0.0 }}
+  end
+
+  def state
+    @states[ attack? ? :attack : :walk ]
   end
 
   def attack?
-    @attack_time + @attack_speed > @window.time
+    @states[:attack][:time] + @states[:attack][:speed] > @window.time
   end
   
   def walk?
@@ -31,21 +31,17 @@ class SnakeSprite
   end
   
   def attack!
-    @attack_time = @window.time unless attack?
+    @states[:attack][:time] = @window.time unless attack?
   end
 
   def move_right
-    if walk?
-      @direction = :right
-      @x += @movement
-    end
+    @direction = :right
+    @x += state[:movement]
   end
   
   def move_left
-    if walk?
-      @direction = :left
-      @x -= @movement
-    end
+    @direction = :left
+    @x -= state[:movement]
   end
   
   def draw
@@ -57,12 +53,8 @@ class SnakeSprite
   end
   
   def frame
-    if walk?
-      ((@window.time / @walk_speed % 1) * @walk_frames).to_i
-    else #attack!
-      d = (@window.time - @attack_time) / @attack_speed % 1
-      (d * @attack_frames).to_i + @walk_frames
-    end
+    d = (@window.time - state[:time]) / state[:speed] % 1
+    state[:frames][(d * state[:frames].size).to_i]
   end
 end
 
