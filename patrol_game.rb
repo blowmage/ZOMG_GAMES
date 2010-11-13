@@ -36,7 +36,15 @@ class PatrolGame < Gosu::Window
   
   def update
     @player.update
-    @creeps.each { |creep| creep.update }
+    @creeps.each do |creep|
+      creep.update
+      d = Gosu.distance @player.x, @player.y,
+                        creep.x, creep.y
+      if d < creep.range
+        puts 'FAIL!!!'
+        close
+      end
+    end
   end
   
   def draw

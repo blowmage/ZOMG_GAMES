@@ -1,7 +1,7 @@
 require 'gosu'
 
 class PatrolPlayer
-  attr_accessor :movement, :color
+  attr_accessor :x, :y, :movement, :color
   def initialize window
     @window = window
     @movement = 2.5

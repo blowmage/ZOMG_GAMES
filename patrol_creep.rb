@@ -1,7 +1,7 @@
 require 'gosu'
 
 class PatrolCreep
-  attr_accessor :movement, :color, :start, :end
+  attr_accessor :x, :y, :movement, :color, :start, :end, :range
   def initialize window
     @window = window
     @movement = 3.5
@@ -14,6 +14,7 @@ class PatrolCreep
     @end   = [ @window.width - @circle.width,
                @window.height - @circle.height ]
     @target = :end
+    @range = @circle.width
   end
     
   def target
