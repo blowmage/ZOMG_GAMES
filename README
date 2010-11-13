@@ -1,0 +1,22 @@
+Writing games with Ruby
+
+RubyConf 2010
+Mike Moore
+November 13, 2010
+
+The first example game demonstrates moving objects on the screen.
+
+  ruby demo_game.rb
+
+The second example creates an animated sprite that you can control.
+
+  ruby sprite_game.rb
+
+The third example demonstrated clipping and simple game mechanics.
+
+  ruby patrol_game.rb
+
+The last example is a mostly working game where you avoid ev1l snakes
+so you can attend RubyConf.
+
+  ruby rubyconf_game.rb
