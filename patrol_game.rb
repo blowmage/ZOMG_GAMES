@@ -16,6 +16,7 @@ class PatrolGame < Gosu::Window
       creep.end   = *random_position
       creep
     end
+    @win_position = [760, 560]
   end
 
   def random_color
@@ -36,6 +37,10 @@ class PatrolGame < Gosu::Window
   
   def update
     @player.update
+    if [ (@player.x + 0.5).to_i, (@player.y + 0.5).to_i ] == @win_position
+      puts 'WIN!!!'
+      close
+    end
     @creeps.each do |creep|
       creep.update
       d = Gosu.distance @player.x, @player.y,
