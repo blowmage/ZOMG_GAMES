@@ -1,12 +1,14 @@
 require 'rubygems'
 require 'gosu'
 
+require './patrol_player'
 require './patrol_creep'
 
 class PatrolGame < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     
+    @player = PatrolPlayer.new self
     @creeps = (0..5).map do
       creep = PatrolCreep.new self
       creep.color = random_color
@@ -33,10 +35,12 @@ class PatrolGame < Gosu::Window
   end
   
   def update
+    @player.update
     @creeps.each { |creep| creep.update }
   end
   
   def draw
+    @player.draw
     @creeps.each { |creep| creep.draw }
   end
 end
