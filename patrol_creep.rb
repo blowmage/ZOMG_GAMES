@@ -48,7 +48,9 @@ class PatrolCreep
   
   def draw
     # The image needs to be drawn offset from the center x and y coordinates
-    x, y = @x - @circle.width/2, @y - @circle.height/2
-    @circle.draw x, y, 1, 1.0, 1.0, @color
+    x = @x - @circle.width/2
+    y = (@y - @circle.height/2)/2 + 200
+    
+    @circle.draw x, y, 1, 1.0, 0.5, @color
   end
 end

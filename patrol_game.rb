@@ -8,6 +8,7 @@ class PatrolGame < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     
+    @bkg = Gosu::Image.new self, 'assets/level-background.png'
     @player = PatrolPlayer.new self
     @creeps = (0..5).map do
       creep = PatrolCreep.new self
@@ -53,6 +54,7 @@ class PatrolGame < Gosu::Window
   end
   
   def draw
+    @bkg.draw 0, 0, -1
     @player.draw
     @creeps.each { |creep| creep.draw }
   end
