@@ -14,7 +14,7 @@ class RubyConfGame < Gosu::Window
 
     # So multiple sprites don't create duplicate objects
     @sounds = {}
-    
+
     # Levels
     @play = PlayLevel.new self
     @win  = WinLevel.new  self
@@ -56,7 +56,7 @@ class RubyConfGame < Gosu::Window
   def button_up id
     @level.button_up id if @level.respond_to? :button_up
   end
-  
+
   def snakes_count
     @play.snakes_count
   end

@@ -42,10 +42,6 @@ class Ninja
     (((@level.window.time - state[:time]) / state[:speed] % 1) * state[:frames].size).to_i + state[:frames].first
   end
 
-  def center
-    [Math::round(@x), Math::round(@y)]
-  end
-
   def play_sneak
     if @sneak_impl.nil?
       @sneak_impl = @sneak.play 1, 1, true

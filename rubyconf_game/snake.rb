@@ -70,10 +70,6 @@ class Snake
     @end = [x, y]
   end
 
-  def center
-    [Math::round(@x), Math::round(@y)]
-  end
-
   def register_hiss
     if @level.window.sounds[:hiss].nil?
       hiss = Gosu::Sample.new @level.window, 'assets/snake-hiss.wav'
@@ -95,7 +91,6 @@ class Snake
     @direction = (xmd < 0) ? :left : :right
     @x += (xmd.abs < xsd.abs) ? xmd : xsd
     @y += (ymd.abs < ysd.abs) ? ymd : ysd
-    d = Gosu.distance @x, @y, target.first, target.last
     reverse! if at_target?
   end
 

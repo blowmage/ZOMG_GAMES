@@ -69,9 +69,8 @@ class PlayLevel # inherit from Level? why?!?
   end
 
   def ninja_escaped?
-    c = @ninja.center
-    ( (c.first == @win_position.first) &&
-      (c.last == @win_position.last) )
+    ( (Math::round(@ninja.x) == @win_position.first) &&
+      (Math::round(@ninja.y) == @win_position.last) )
   end
 
   def snakes_count
@@ -98,7 +97,7 @@ class PlayLevel # inherit from Level? why?!?
   end
 
   def stop
-    @ninja.stop_sneak    
+    @ninja.stop_sneak
   end
 
   def update
@@ -111,12 +110,10 @@ class PlayLevel # inherit from Level? why?!?
       return
     end
     # Check for collision and attacks
-    nx, ny = @ninja.center
     @snakes.each do |snake|
-      cx, cy = snake.center
-      d = Gosu.distance nx, ny, cx, cy
-      fail! if d < snake.range
-      snake.attack! if d < snake.range*2.5
+      range = Gosu.distance @ninja.x, @ninja.y, snake.x, snake.y
+      fail!         if range < snake.range
+      snake.attack! if range < snake.range*2.5
     end
   end
 
