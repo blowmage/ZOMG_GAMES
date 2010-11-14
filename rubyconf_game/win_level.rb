@@ -46,9 +46,9 @@ class WinLevel
 
   def update
     quit!     if @window.button_down? Gosu::KbEscape
-    continue! if ( @window.button_down? Gosu::KbSpace)
-                   # @window.button_down? Gosu::KbReturn ||
-                   # @window.button_down? Gosu::KbEnter )
+    continue! if ( @window.button_down?(Gosu::KbSpace)  ||
+                   @window.button_down?(Gosu::KbReturn) ||
+                   @window.button_down?(Gosu::KbEnter)  )
   end
 
   def draw
