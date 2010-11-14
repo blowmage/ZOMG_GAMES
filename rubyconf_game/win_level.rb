@@ -22,6 +22,7 @@ class WinLevel
 
   def start!
     @sound.play
+    create_msg!
   end
 
   def continue!
@@ -32,11 +33,10 @@ class WinLevel
     @quit_callbacks.each { |c| c.call }
   end
 
-  def difficulty= d
-    @difficulty = d
+  def create_msg!
     @msg = Gosu::Image.from_text @window,
                                 "You are a RUBY NINJA ROCKSTAR!!1!\n" +
-                                "You defeated #{difficulty} enemies!!!\n" +
+                                "You avoided #{@window.snakes_count} snakes!!!\n" +
                                 "Press SPACE if you dare to continue...\n" +
                                 "Or ESCAPE if it is just too much for you.",
                                 Gosu::default_font_name, 24

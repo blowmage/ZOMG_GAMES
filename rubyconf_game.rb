@@ -24,15 +24,14 @@ class RubyConfGame < Gosu::Window
     @fail.on_continue { play! }
     @fail.on_quit     { close }
 
-    @win.on_continue  { play! true }
+    @win.on_continue  { @play.add_snake!; play!}
     @win.on_quit      { close }
 
     play!
   end
 
-  def play! increment_difficulty=false # this param is a smell!
+  def play!
     @level = @play
-    @play.difficulty += 1 if increment_difficulty
     @play.start!
   end
 
@@ -43,7 +42,6 @@ class RubyConfGame < Gosu::Window
 
   def win!
     @level = @win
-    @win.difficulty = @play.difficulty
     @win.start!
   end
 
@@ -53,6 +51,10 @@ class RubyConfGame < Gosu::Window
 
   def button_up id
     @level.button_up id if @level.respond_to? :button_up
+  end
+  
+  def snakes_count
+    @play.snakes_count
   end
 
   def update

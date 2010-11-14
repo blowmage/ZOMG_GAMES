@@ -15,7 +15,8 @@ class PlayLevel # inherit from Level? why?!?
     # Create level elements
     @background = Gosu::Image.new @window, 'assets/rubyconf-background.png'
     @ninja = Ninja.new self
-    self.difficulty = 3 # This is a smell. Adding snakes is a side effect
+    @snakes = []
+    3.times { add_snake! }
     
     # Set ninja start and win positions
     offset = @ninja.boundary/2
@@ -75,16 +76,12 @@ class PlayLevel # inherit from Level? why?!?
       (c.last == @win_position.last) )
   end
 
-  def difficulty
+  def snakes_count
     @snakes.size
   end
-  def difficulty= size
-    # Smells icky
-    # What if we have snakes *AND* zombies?
-    @snakes = []
-    size.times do
-      @snakes << Snake.new(self)
-    end
+
+  def add_snake!
+    @snakes << Snake.new(self)
   end
 
   def win!
