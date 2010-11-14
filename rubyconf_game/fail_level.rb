@@ -13,13 +13,37 @@ class FailLevel
     @msg_x = @window.width/2 - @msg.width/2
     @msg_y = @window.height * 2 / 3
     @sound = Gosu::Sample.new @window, 'assets/fail.wav'
+
+    # Add callback holders
+    @continue_callbacks = []
+    @quit_callbacks = []
   end
 
-  def announce!
+  def on_continue &block
+    @continue_callbacks << block
+  end
+
+  def on_quit &block
+    @quit_callbacks << block
+  end
+
+  def continue!
+    @continue_callbacks.each { |c| c.call }
+  end
+
+  def quit!
+    @quit_callbacks.each { |c| c.call }
+  end
+
+  def start!
     @sound.play
   end
 
   def update
+    quit!     if @window.button_down? Gosu::KbEscape
+    continue! if ( @window.button_down? Gosu::KbSpace)
+                   # @window.button_down? Gosu::KbReturn ||
+                   # @window.button_down? Gosu::KbEnter )
   end
 
   def draw

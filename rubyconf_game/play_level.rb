@@ -14,18 +14,36 @@ class PlayLevel # inherit from Level? why?!?
 
     @background = Gosu::Image.new @window, 'assets/rubyconf-background.png'
     @ninja = Ninja.new self
-    add_snake!;add_snake!;add_snake!
+    self.difficulty = 3
     offset = @ninja.boundary/2
     @start_position = [offset, offset]
     @win_position   = [@window.width - offset, @window.height - offset]
+
+    # Add callback holders
+    # @start_callbacks = []
+    @win_callbacks  = []
+    @fail_callbacks = []
+    @quit_callbacks = []
   end
 
-  def add_snake!
-    @snakes ||= []
-    @snakes << Snake.new(self)
+  # def on_start &block
+  #   @start_callbacks << block
+  # end
+
+  def on_win &block
+    @win_callbacks << block
   end
 
-  def start_level!
+  def on_fail &block
+    @fail_callbacks << block
+  end
+
+  def on_quit &block
+    @quit_callbacks << block
+  end
+
+  def start!
+    # @start_callbacks.each { |c| c.call }
     @state = :play
     @ninja.x = @start_position[0]
     @ninja.y = @start_position[1]
@@ -54,15 +72,23 @@ class PlayLevel # inherit from Level? why?!?
   def difficulty
     @snakes.size
   end
+  def difficulty= size
+    @snakes = []
+    size.times do
+      @snakes << Snake.new(self)
+    end
+  end
 
   def win!
     @ninja.stop_sneak
     @state = :win
+    @win_callbacks.each { |c| c.call }
   end
 
   def fail!
     @ninja.stop_sneak
     @state = :fail
+    @fail_callbacks.each { |c| c.call }
   end
 
   def update

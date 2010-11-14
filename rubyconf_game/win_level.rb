@@ -6,10 +6,30 @@ class WinLevel
     @window = window
     @win = Gosu::Image.new @window, 'assets/win.png'
     @sound = Gosu::Sample.new @window, 'assets/win.wav'
+
+    # Add callback holders
+    @continue_callbacks = []
+    @quit_callbacks = []
   end
 
-  def announce!
+  def on_continue &block
+    @continue_callbacks << block
+  end
+
+  def on_quit &block
+    @quit_callbacks << block
+  end
+
+  def start!
     @sound.play
+  end
+
+  def continue!
+    @continue_callbacks.each { |c| c.call }
+  end
+
+  def quit!
+    @quit_callbacks.each { |c| c.call }
   end
 
   def difficulty= d
@@ -25,6 +45,10 @@ class WinLevel
   end
 
   def update
+    quit!     if @window.button_down? Gosu::KbEscape
+    continue! if ( @window.button_down? Gosu::KbSpace)
+                   # @window.button_down? Gosu::KbReturn ||
+                   # @window.button_down? Gosu::KbEnter )
   end
 
   def draw
