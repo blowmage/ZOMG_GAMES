@@ -9,12 +9,15 @@ class PlayLevel # inherit from Level? why?!?
     @window = window
 
     # sounds
-    @sounds = {}
+    @sounds = {} # This is a smell. Should be on window?
     @begin = Gosu::Sample.new @window, 'assets/begin.wav'
 
+    # Create level elements
     @background = Gosu::Image.new @window, 'assets/rubyconf-background.png'
     @ninja = Ninja.new self
-    self.difficulty = 3
+    self.difficulty = 3 # This is a smell. Adding snakes is a side effect
+    
+    # Set ninja start and win positions
     offset = @ninja.boundary/2
     @start_position = [offset, offset]
     @win_position   = [@window.width - offset, @window.height - offset]
@@ -44,13 +47,16 @@ class PlayLevel # inherit from Level? why?!?
 
   def start!
     # @start_callbacks.each { |c| c.call }
-    @state = :play
     @ninja.x = @start_position[0]
     @ninja.y = @start_position[1]
     @snakes.each do |snake|
       snake.start *rand_position
       snake.end   *rand_position
     end
+    play_begin_sound
+  end
+  
+  def play_begin_sound
     @begin.play
   end
 
@@ -73,6 +79,8 @@ class PlayLevel # inherit from Level? why?!?
     @snakes.size
   end
   def difficulty= size
+    # Smells icky
+    # What if we have snakes *AND* zombies?
     @snakes = []
     size.times do
       @snakes << Snake.new(self)
@@ -81,41 +89,35 @@ class PlayLevel # inherit from Level? why?!?
 
   def win!
     @ninja.stop_sneak
-    @state = :win
     @win_callbacks.each { |c| c.call }
   end
 
   def fail!
     @ninja.stop_sneak
-    @state = :fail
     @fail_callbacks.each { |c| c.call }
   end
 
   def update
-    if @state == :play
-      @ninja.update
-      @snakes.each { |snake| snake.update }
-      # Did the player make it?
-      if ninja_escaped?
-        win!
-        return
-      end
-      # Check for collision and attacks
-      nx, ny = @ninja.center
-      @snakes.each do |snake|
-        cx, cy = snake.center
-        d = Gosu.distance nx, ny, cx, cy
-        fail! if d < snake.range
-        snake.attack! if d < snake.range*3
-      end
+    @ninja.update
+    @snakes.each { |snake| snake.update }
+    # Did the player make it?
+    if ninja_escaped?
+      win!
+      return
+    end
+    # Check for collision and attacks
+    nx, ny = @ninja.center
+    @snakes.each do |snake|
+      cx, cy = snake.center
+      d = Gosu.distance nx, ny, cx, cy
+      fail! if d < snake.range
+      snake.attack! if d < snake.range*3
     end
   end
 
   def draw
-    if @state == :play
-      @background.draw 0, 0, 0
-      @ninja.draw
-      @snakes.each { |snake| snake.draw }
-    end
+    @background.draw 0, 0, 0
+    @ninja.draw
+    @snakes.each { |snake| snake.draw }
   end
 end
