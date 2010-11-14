@@ -83,18 +83,22 @@ class PlayLevel # inherit from Level? why?!?
   end
 
   def win!
-    @ninja.stop_sneak
+    stop
     @win_callbacks.each { |c| c.call }
   end
 
   def fail!
-    @ninja.stop_sneak
+    stop
     @fail_callbacks.each { |c| c.call }
   end
 
   def quit!
-    @ninja.stop_sneak
+    stop
     @quit_callbacks.each { |c| c.call }
+  end
+
+  def stop
+    @ninja.stop_sneak    
   end
 
   def update
