@@ -6,12 +6,16 @@ require './rubyconf_game/win_level'
 require './rubyconf_game/fail_level'
 
 class RubyConfGame < Gosu::Window
-  attr_reader :time
+  attr_reader :time, :sounds
   def initialize width=800, height=600, fullscreen=false
     super
 
     self.caption = 'ESCAPE TO RUBYCONF!!!'
 
+    # So multiple sprites don't create duplicate objects
+    @sounds = {}
+    
+    # Levels
     @play = PlayLevel.new self
     @win  = WinLevel.new  self
     @fail = FailLevel.new self

@@ -21,9 +21,8 @@ class Snake
     self.end   @boundary, @level.window.height-@boundary
     @target = :start # :start
 
-    # Register the sound on the app because many snakes will hiss
-    @level.sounds[:hiss] ||= Gosu::Sample.new @level.window,
-                                              'assets/snake-hiss.wav'
+    # Register the sound so multiple snakes will use same hiss
+    register_hiss
   end
 
   def state
@@ -33,7 +32,7 @@ class Snake
   def attack!
     unless attack?
       @states[:attack][:time] = @level.window.time
-      hiss
+      hiss!
     end
   end
 
@@ -75,8 +74,16 @@ class Snake
     [Math::round(@x), Math::round(@y)]
   end
 
-  def hiss
-    @level.sounds[:hiss].play
+  def register_hiss
+    if @level.window.sounds[:hiss].nil?
+      hiss = Gosu::Sample.new @level.window, 'assets/snake-hiss.wav'
+      @level.window.sounds[:hiss] = hiss
+    end
+  end
+
+  def hiss!
+    hiss = @level.window.sounds[:hiss]
+    hiss.play if hiss
   end
 
   def update

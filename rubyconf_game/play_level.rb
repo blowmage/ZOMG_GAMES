@@ -8,8 +8,6 @@ class PlayLevel # inherit from Level? why?!?
   def initialize window
     @window = window
 
-    # sounds
-    @sounds = {} # This is a smell. Should be on window?
     @begin = Gosu::Sample.new @window, 'assets/begin.wav'
 
     # Create level elements
