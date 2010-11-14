@@ -100,17 +100,19 @@ class Snake
   end
 
   def draw
-    x, y = center
-    bx = x - @boundary/2
-    by = (y - @boundary/2)/2+200
-    px = bx - @width/2 + @boundary/2
-    py = by - @height + @boundary/2
-    factor_x = 1.0
-    factor_y = 1.0
+    @tiles[frame].draw *draw_coordinates
+  end
+
+  def draw_coordinates
+    x = Math::round(@x - @width/2)
+    y = Math::round((@y - @boundary/2)/2+200 - @height + @boundary/2)
+    z = 1 + (y/@level.window.height)
+    fx = 1.0
+    fy = 1.0
     if @direction == :left
-      factor_x = -1.0
-      px += @width
+      fx = -1.0
+      x += @width
     end
-    @tiles[frame].draw Math::round(px), Math::round(py), (by), factor_x, factor_y
+    [x, y, z, fx, fy]
   end
 end

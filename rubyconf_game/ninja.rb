@@ -106,18 +106,19 @@ class Ninja
   end
 
   def draw
-    x, y = center
-    bx = x - @boundary/2
-    by = (y - @boundary/2)/2+200
-    px = bx - @width/2 + @boundary/2
-    py = by - @height + @boundary/2
-    factor_x = 1.0
-    factor_y = 1.0
-    if @direction == :left
-      factor_x = -1.0
-      px += @width
-    end
-    @tiles[frame].draw Math::round(px), Math::round(py), (by), factor_x, factor_y
+    @tiles[frame].draw *draw_coordinates
   end
 
+  def draw_coordinates
+    x = Math::round(@x - @width/2)
+    y = Math::round((@y - @boundary/2)/2+200 - @height + @boundary/2)
+    z = 1 + (y/@level.window.height)
+    fx = 1.0
+    fy = 1.0
+    if @direction == :left
+      fx = -1.0
+      x += @width
+    end
+    [x, y, z, fx, fy]
+  end
 end
