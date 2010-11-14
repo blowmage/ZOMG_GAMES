@@ -15,7 +15,7 @@ class PlayLevel # inherit from Level? why?!?
     @ninja = Ninja.new self
     @snakes = []
     3.times { add_snake! }
-    
+
     # Set ninja start and win positions
     offset = @ninja.boundary/2
     @start_position = [offset, offset]
@@ -54,7 +54,7 @@ class PlayLevel # inherit from Level? why?!?
     end
     play_begin_sound
   end
-  
+
   def play_begin_sound
     @begin.play
   end
@@ -92,7 +92,13 @@ class PlayLevel # inherit from Level? why?!?
     @fail_callbacks.each { |c| c.call }
   end
 
+  def quit!
+    @ninja.stop_sneak
+    @quit_callbacks.each { |c| c.call }
+  end
+
   def update
+    quit! if @window.button_down? Gosu::KbEscape
     @ninja.update
     @snakes.each { |snake| snake.update }
     # Did the player make it?
