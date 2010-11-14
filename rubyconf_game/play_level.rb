@@ -116,7 +116,7 @@ class PlayLevel # inherit from Level? why?!?
       cx, cy = snake.center
       d = Gosu.distance nx, ny, cx, cy
       fail! if d < snake.range
-      snake.attack! if d < snake.range*3
+      snake.attack! if d < snake.range*2.5
     end
   end
 
