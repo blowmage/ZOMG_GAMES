@@ -19,10 +19,6 @@ class RubyConfGame < Gosu::Window
     @play.start_level!
     @last_state == @play.state
   end
-  
-  def hiss
-    @hiss.play
-  end
 
   def button_down id
     close if id == Gosu::KbEscape
