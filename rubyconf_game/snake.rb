@@ -101,7 +101,7 @@ class Snake
   def draw_coordinates
     x = Math::round(@x - @width/2)
     y = Math::round((@y - @boundary/2)/2+200 - @height + @boundary/2)
-    z = 1 + (y/@level.window.height)
+    z = 1 + (@y/@level.window.height)
     fx = 1.0
     fy = 1.0
     if @direction == :left
